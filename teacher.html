@@ -606,21 +606,26 @@ async function loadFiles() {
 }
 
 function applyFilters() {
-  const grade = document.getElementById('filterGrade').value;
-  const sec = document.getElementById('filterSection').value;
-  const search = document.getElementById('filterSearch').value.trim().toLowerCase();
+    const grade = document.getElementById('filterGrade').value;
+    const sec = document.getElementById('filterSection').value;
+    const search = document.getElementById('filterSearch').value.trim().toLowerCase();
 
-  filteredSubmissions = allSubmissions.filter(s => {
-    if (grade && !s.className.startsWith(grade)) return false;
-    if (sec && !s.className.endsWith(sec)) return false;
-    if (search && !s.name.toLowerCase().includes(search) && !s.className.includes(search)) return false;
-    return true;
-  });
+    filteredSubmissions = allSubmissions.filter(s => {
+        // البحث عن الصف في أي مكان داخل اسم المجلد
+        if (grade && !s.className.includes(grade)) return false;
+        
+        // البحث عن الشعبة (نتأكد من وجود الرقم)
+        if (sec && !s.className.includes(sec)) return false;
+        
+        // البحث العام بالاسم
+        if (search && !s.name.toLowerCase().includes(search) && !s.className.includes(search)) return false;
+        
+        return true;
+    });
 
-  renderSubmissions(filteredSubmissions);
-  document.getElementById('countBadge').textContent = filteredSubmissions.length + ' عمل';
+    renderSubmissions(filteredSubmissions);
+    document.getElementById('countBadge').textContent = filteredSubmissions.length + ' عمل';
 }
-
 function renderSubmissions(subs) {
   const container = document.getElementById('filesContainer');
   if (subs.length === 0) {
