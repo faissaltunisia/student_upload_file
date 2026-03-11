@@ -485,19 +485,19 @@
       <label>الصف</label>
       <select id="filterGrade" onchange="applyFilters()">
         <option value="">كل الصفوف</option>
-        <option value="خامس">الخامس</option>
-        <option value="سابع">السابع</option>
-        <option value="تاسع">التاسع</option>
+        <option value="خامس">خامس</option>
+        <option value="سابع">سابع</option>
+        <option value="تاسع">تاسع</option>
       </select>
     </div>
     <div class="filter-group">
       <label>الشعبة</label>
       <select id="filterSection" onchange="applyFilters()">
         <option value="">كل الشعب</option>
-        <option value="1">شعبة 1</option>
-        <option value="2">شعبة 2</option>
-        <option value="3">شعبة 3</option>
-        <option value="4">شعبة 4</option>
+        <option value="1"> 1</option>
+        <option value="2"> 2</option>
+        <option value="3"> 3</option>
+        <option value="4"> 4</option>
       </select>
     </div>
     <div class="filter-group">
@@ -606,19 +606,20 @@ async function loadFiles() {
 }
 
 function applyFilters() {
-    const grade = document.getElementById('filterGrade').value;
-    const sec = document.getElementById('filterSection').value;
+    const grade = document.getElementById('filterGrade').value; // ستكون قيمته "خامس" مثلاً
+    const sec = document.getElementById('filterSection').value; // ستكون قيمته "1" مثلاً
     const search = document.getElementById('filterSearch').value.trim().toLowerCase();
 
     filteredSubmissions = allSubmissions.filter(s => {
-        // البحث عن الصف في أي مكان داخل اسم المجلد
+        // التحقق من الصف: يبحث عن كلمة "خامس" داخل "الصف خامس - شعبة 1"
         if (grade && !s.className.includes(grade)) return false;
         
-        // البحث عن الشعبة (نتأكد من وجود الرقم)
-        if (sec && !s.className.includes(sec)) return false;
+        // التحقق من الشعبة: يبحث عن رقم "1" داخل "الصف خامس - شعبة 1"
+        // نستخدم الفاصلة أو كلمة شعبة لضمان دقة البحث عن الرقم
+        if (sec && !s.className.includes("شعبة " + sec)) return false;
         
-        // البحث العام بالاسم
-        if (search && !s.name.toLowerCase().includes(search) && !s.className.includes(search)) return false;
+        // البحث العام بالاسم أو الصف
+        if (search && !s.name.toLowerCase().includes(search) && !s.className.toLowerCase().includes(search)) return false;
         
         return true;
     });
