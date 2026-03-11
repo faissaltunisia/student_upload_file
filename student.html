@@ -27,6 +27,8 @@
     background: var(--surface);
     color: var(--text);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-image: 
       radial-gradient(ellipse at 80% 10%, rgba(201,168,76,0.08) 0%, transparent 60%),
       radial-gradient(ellipse at 10% 90%, rgba(26,107,60,0.10) 0%, transparent 60%);
@@ -85,16 +87,20 @@
     margin-top: 4px;
     font-weight: 300;
   }
-  .header-badge {
+  .teacher-name {
     margin-right: auto;
-    background: rgba(201,168,76,0.2);
-    border: 1px solid rgba(201,168,76,0.4);
+    text-align: left;
+  }
+  .teacher-name span {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-bottom: 2px;
+  }
+  .teacher-name strong {
     color: var(--gold-light);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.95rem;
   }
 
   /* Main */
@@ -102,6 +108,8 @@
     max-width: 860px;
     margin: 0 auto;
     padding: 32px 24px 60px;
+    flex: 1;
+    width: 100%;
   }
 
   .card {
@@ -288,7 +296,7 @@
   }
   .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  /* Success/Error */
+  /* Messages */
   .success-msg {
     display: none;
     background: #e8f5ee;
@@ -314,6 +322,20 @@
   }
   .error-msg.show { display: block; }
 
+  /* Footer */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 24px;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  footer strong {
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
   .nav-link {
     display: inline-flex; align-items: center; gap: 6px;
     color: var(--green); font-weight: 600; font-size: 0.875rem;
@@ -333,6 +355,7 @@
 
   @media(max-width: 600px) {
     .form-grid { grid-template-columns: 1fr; }
+    .teacher-name { display: none; }
   }
 </style>
 </head>
@@ -345,7 +368,10 @@
       <h1>مدرسة صلالة الشرقية للتعليم الأساسي</h1>
       <p>منصة رفع الأعمال المدرسية</p>
     </div>
-    <div class="header-badge">📚 صفحة الطالب</div>
+    <div class="teacher-name">
+      <span>معلم المادة:</span>
+      <strong>الأستاذ فيصل العريبي</strong>
+    </div>
   </div>
 </header>
 
@@ -441,7 +467,12 @@
   </div>
 </main>
 
+<footer>
+  <p>© جميع حقوق الملكية محفوظة لـ <strong>الأستاذ فيصل العريبي 2026</strong></p>
+</footer>
+
 <script>
+// ... نفس كود الـ JavaScript السابق بدون تغيير ...
 let selectedFiles = [];
 
 document.getElementById('fileInput').addEventListener('change', (e) => addFiles(e.target.files));
@@ -457,7 +488,6 @@ dropZone.addEventListener('drop', (e) => {
 
 function addFiles(files) {
   for (const f of files) {
-    // تحديث الحد الأقصى هنا إلى 100 ميغا
     if (f.size > 100 * 1024 * 1024) { showError(`الملف "${f.name}" أكبر من 100 ميغابايت`); continue; }
     selectedFiles.push(f);
   }
@@ -552,7 +582,6 @@ async function uploadFiles() {
       selectedFiles = [];
       renderFileList();
       
-      // Reset form fields
       document.getElementById('studentName').value = '';
       document.getElementById('gradeLevel').value = '';
       document.getElementById('section').value = '';
