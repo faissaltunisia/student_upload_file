@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رفع الأعمال — مدرسة صلالة الشرقية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a6b3c;
+    --green-light: #22873f;
+    --green-pale: #e8f5ee;
+    --gold: #c9a84c;
+    --gold-light: #f0d98a;
+    --dark: #0f2318;
+    --text: #1c3528;
+    --muted: #6b8f7a;
+    --white: #ffffff;
+    --surface: #f4fbf7;
+    --border: #c8e6d4;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(26,107,60,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--surface);
+    color: var(--text);
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 80% 10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 10% 90%, rgba(26,107,60,0.10) 0%, transparent 60%);
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--green) 100%);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; right: -30px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .school-logo {
+    width: 68px; height: 68px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+  .header-text h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+  .header-text p {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    margin-top: 4px;
+    font-weight: 300;
+  }
+  .header-badge {
+    margin-right: auto;
+    background: rgba(201,168,76,0.2);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* Main */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+  }
+
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-title .icon {
+    width: 34px; height: 34px;
+    background: var(--green-pale);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  /* Form */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-grid.full { grid-template-columns: 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  label span.req { color: #e05c5c; }
+  input, select, textarea {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(26,107,60,0.08);
+    background: white;
+  }
+  select { cursor: pointer; }
+  textarea { min-height: 80px; resize: vertical; }
+
+  /* Upload Zone */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: var(--surface);
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--green);
+    background: var(--green-pale);
+  }
+  .upload-zone input[type="file"] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+    width: 100%; height: 100%;
+    padding: 0; border: none; background: none;
+  }
+  .upload-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    display: block;
+    line-height: 1;
+  }
+  .upload-zone h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .upload-zone p {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .upload-zone .browse-btn {
+    display: inline-block;
+    margin-top: 12px;
+    background: var(--green);
+    color: white;
+    padding: 8px 22px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    pointer-events: none;
+  }
+
+  /* File list */
+  .file-list { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .file-item {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--green-pale);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    animation: slideIn 0.25s ease;
+  }
+  @keyframes slideIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+  .file-item .file-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .file-info { flex: 1; min-width: 0; }
+  .file-info .fname { font-size: 0.875rem; font-weight: 600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .file-info .fsize { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+  .file-remove {
+    background: none; border: none; cursor: pointer;
+    color: #e05c5c; font-size: 1.1rem; padding: 4px;
+    border-radius: 6px; transition: background 0.2s;
+  }
+  .file-remove:hover { background: rgba(224,92,92,0.1); }
+
+  /* Progress */
+  .progress-wrap {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 12px;
+  }
+  .progress-wrap.show { display: block; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.82rem; color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .progress-bar-bg {
+    background: var(--border);
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    background: linear-gradient(90deg, var(--green), var(--green-light));
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    transition: width 0.3s;
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 16px rgba(26,107,60,0.25);
+    margin-top: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(26,107,60,0.35);
+  }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* Success/Error */
+  .success-msg {
+    display: none;
+    background: #e8f5ee;
+    border: 1.5px solid #a8d5b5;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+    margin-top: 14px;
+  }
+  .success-msg.show { display: block; animation: slideIn 0.3s; }
+  .success-msg .s-icon { font-size: 2.2rem; display: block; margin-bottom: 8px; }
+  .success-msg p { font-size: 0.95rem; font-weight: 600; color: var(--green); }
+
+  .error-msg {
+    display: none;
+    background: #fef2f2;
+    border: 1.5px solid #fca5a5;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 0.875rem;
+    color: #b91c1c;
+    margin-top: 12px;
+  }
+  .error-msg.show { display: block; }
+
+  .nav-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--green); font-weight: 600; font-size: 0.875rem;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: white;
+    transition: all 0.2s;
+  }
+  .top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px;
+  }
+  .page-title { font-size: 1.3rem; font-weight: 800; color: var(--dark); }
+  .page-title span { color: var(--green); }
+
+  @media(max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="school-logo">🏫</div>
+    <div class="header-text">
+      <h1>مدرسة صلالة الشرقية للتعليم الأساسي</h1>
+      <p>منصة رفع الأعمال المدرسية</p>
+    </div>
+    <div class="header-badge">📚 صفحة الطالب</div>
+  </div>
+</header>
+
+<main>
+  <div class="top-nav">
+    <div class="page-title">رفع <span>عمل جديد</span></div>
+    <a href="teacher.html" class="nav-link">🎓 صفحة المعلم ←</a>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <div class="icon">👤</div>
+      بيانات الطالب
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>اسم الطالب <span class="req">*</span></label>
+        <input type="text" id="studentName" placeholder="أدخل الاسم الكامل">
+      </div>
+      <div class="form-group">
+        <label>المادة</label>
+        <input type="text" value="تقنية المعلومات" id="subject" readonly
+          style="background:#e8f5ee; color:var(--green); font-weight:700; cursor:default; border-color:var(--border);">
+      </div>
+      <div class="form-group">
+        <label>الصف <span class="req">*</span></label>
+        <select id="gradeLevel">
+          <option value="">— اختر الصف —</option>
+          <option value="خامس">الصف الخامس</option>
+          <option value="سابع">الصف السابع</option>
+          <option value="تاسع">الصف التاسع</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>الشعبة <span class="req">*</span></label>
+        <select id="section">
+          <option value="">— اختر الشعبة —</option>
+          <option value="1">شعبة 1</option>
+          <option value="2">شعبة 2</option>
+          <option value="3">شعبة 3</option>
+          <option value="4">شعبة 4</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:16px;">
+      <div class="form-group">
+        <label>عنوان العمل <span class="req">*</span></label>
+        <input type="text" id="workTitle" placeholder="مثال: مشروع الحاسوب — الفصل الأول">
+      </div>
+      <div class="form-group">
+        <label>ملاحظات (اختياري)</label>
+        <textarea id="notes" placeholder="أي ملاحظات إضافية للمعلم..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <div class="icon">📎</div>
+      رفع الملفات
+    </div>
+
+    <div class="upload-zone" id="dropZone">
+      <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.mp4,.avi,.mov">
+      <span class="upload-icon">☁️</span>
+      <h3>اسحب الملفات هنا أو انقر للاختيار</h3>
+      <p>صور · PDF · Word · Excel · فيديو<br>الحد الأقصى: 100 ميغابايت لكل ملف</p>
+      <span class="browse-btn">📂 اختر ملفات</span>
+    </div>
+
+    <div class="file-list" id="fileList"></div>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-label">
+        <span id="progressText">جارٍ الرفع...</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="success-msg" id="successMsg">
+      <span class="s-icon">✅</span>
+      <p>تم رفع العمل بنجاح إلى Google Drive!</p>
+      <p style="font-size:0.82rem; color:var(--muted); margin-top:6px;" id="folderInfo"></p>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="uploadFiles()">
+      <span>⬆️</span> رفع العمل إلى Google Drive
+    </button>
+  </div>
+</main>
+
+<script>
+let selectedFiles = [];
+
+document.getElementById('fileInput').addEventListener('change', (e) => addFiles(e.target.files));
+
+const dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  addFiles(e.dataTransfer.files);
+});
+
+function addFiles(files) {
+  for (const f of files) {
+    // تحديث الحد الأقصى هنا إلى 100 ميغا
+    if (f.size > 100 * 1024 * 1024) { showError(`الملف "${f.name}" أكبر من 100 ميغابايت`); continue; }
+    selectedFiles.push(f);
+  }
+  renderFileList();
+}
+
+function removeFile(idx) {
+  selectedFiles.splice(idx, 1);
+  renderFileList();
+}
+
+function renderFileList() {
+  const list = document.getElementById('fileList');
+  list.innerHTML = '';
+  selectedFiles.forEach((f, i) => {
+    const ext = f.name.split('.').pop().toLowerCase();
+    const icons = { pdf:'📄', jpg:'🖼️', jpeg:'🖼️', png:'🖼️', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', mp4:'🎬', avi:'🎬', mov:'🎬' };
+    const icon = icons[ext] || '📎';
+    const size = f.size > 1024*1024 ? (f.size/1024/1024).toFixed(1)+' MB' : (f.size/1024).toFixed(0)+' KB';
+    list.innerHTML += `
+      <div class="file-item">
+        <span class="file-icon">${icon}</span>
+        <div class="file-info">
+          <div class="fname">${f.name}</div>
+          <div class="fsize">${size}</div>
+        </div>
+        <button class="file-remove" onclick="removeFile(${i})" title="حذف">✕</button>
+      </div>`;
+  });
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVyx-ZyDHljybA9cuiOBW9DzwFKfKx1mw-AJPQk_yfm1WZV9dA3vijDD6niQsqPrI/exec';
+
+async function uploadFiles() {
+  hideMessages();
+
+  const name = document.getElementById('studentName').value.trim();
+  const grade = document.getElementById('gradeLevel').value;
+  const sec = document.getElementById('section').value;
+  const cls = grade && sec ? `الصف ${grade} - شعبة ${sec}` : '';
+  const subject = 'تقنية المعلومات';
+  const title = document.getElementById('workTitle').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+
+  if (!name) { showError('يرجى إدخال اسم الطالب'); return; }
+  if (!grade) { showError('يرجى اختيار الصف'); return; }
+  if (!sec) { showError('يرجى اختيار الشعبة'); return; }
+  if (!title) { showError('يرجى إدخال عنوان العمل'); return; }
+  if (selectedFiles.length === 0) { showError('يرجى اختيار ملف واحد على الأقل'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span>⏳</span> جارٍ الرفع...';
+  showProgress(true);
+
+  try {
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      updateProgress(Math.round((i / selectedFiles.length) * 90), `جارٍ رفع: ${file.name}`);
+
+      const base64 = await fileToBase64(file);
+
+      const payload = {
+        studentName: name,
+        className: cls,
+        subject: subject,
+        workTitle: title,
+        notes: notes || 'لا يوجد',
+        fileName: file.name,
+        mimeType: file.type || 'application/octet-stream',
+        fileData: base64
+      };
+
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      if (result.status !== 'success') {
+        throw new Error(result.message || 'فشل رفع الملف');
+      }
+    }
+
+    updateProgress(100, 'اكتمل الرفع! ✅');
+    setTimeout(() => {
+      showProgress(false);
+      document.getElementById('folderInfo').textContent = `تم الحفظ في Drive: أعمال الطلاب / ${cls} / ${subject}`;
+      document.getElementById('successMsg').classList.add('show');
+      btn.disabled = false;
+      btn.innerHTML = '<span>⬆️</span> رفع عمل جديد';
+      selectedFiles = [];
+      renderFileList();
+      
+      // Reset form fields
+      document.getElementById('studentName').value = '';
+      document.getElementById('gradeLevel').value = '';
+      document.getElementById('section').value = '';
+      document.getElementById('workTitle').value = '';
+      document.getElementById('notes').value = '';
+    }, 700);
+
+  } catch (err) {
+    showProgress(false);
+    showError('❌ خطأ أثناء الرفع: ' + err.message);
+    btn.disabled = false;
+    btn.innerHTML = '<span>⬆️</span> رفع العمل إلى Google Drive';
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function showProgress(show) {
+  document.getElementById('progressWrap').classList.toggle('show', show);
+}
+function updateProgress(pct, text) {
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressText').textContent = text;
+}
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg; el.classList.add('show');
+}
+function hideMessages() {
+  document.getElementById('errorMsg').classList.remove('show');
+  document.getElementById('successMsg').classList.remove('show');
+}
+</script>
+</body>
+</html>
