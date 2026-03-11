@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة المعلم — مدرسة صلالة الشرقية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a6b3c;
+    --green-light: #22873f;
+    --green-pale: #e8f5ee;
+    --gold: #c9a84c;
+    --gold-light: #f0d98a;
+    --dark: #0f2318;
+    --text: #1c3528;
+    --muted: #6b8f7a;
+    --white: #ffffff;
+    --surface: #f4fbf7;
+    --border: #c8e6d4;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(26,107,60,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--surface);
+    color: var(--text);
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 20% 5%, rgba(201,168,76,0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 95%, rgba(26,107,60,0.10) 0%, transparent 50%);
+  }
+
+  header {
+    background: linear-gradient(135deg, #0a1f10 0%, #1a5c38 100%);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 40px,
+      rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px
+    );
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .school-logo {
+    width: 64px; height: 64px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.45);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.9rem; flex-shrink: 0;
+  }
+  .header-text h1 { font-size: 1.4rem; font-weight: 800; line-height: 1.3; }
+  .header-text p { font-size: 0.88rem; opacity: 0.7; margin-top: 3px; font-weight: 300; }
+  .header-badge {
+    margin-right: auto;
+    background: rgba(201,168,76,0.18);
+    border: 1px solid rgba(201,168,76,0.45);
+    color: var(--gold-light);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Login Screen */
+  #loginScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 120px);
+    padding: 32px 24px;
+  }
+  .login-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(26,107,60,0.15);
+    border: 1px solid var(--border);
+    padding: 44px 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  .login-icon {
+    width: 80px; height: 80px;
+    background: var(--green-pale);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.4rem;
+    margin: 0 auto 20px;
+    border: 3px solid var(--border);
+  }
+  .login-card h2 { font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+  .login-card p { font-size: 0.875rem; color: var(--muted); margin-bottom: 28px; }
+  .login-input {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    text-align: center;
+    letter-spacing: 4px;
+    outline: none;
+    background: var(--surface);
+    color: var(--text);
+    transition: all 0.2s;
+    margin-bottom: 12px;
+  }
+  .login-input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(26,107,60,0.08);
+    background: white;
+  }
+  .login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--green), var(--green-light));
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 14px rgba(26,107,60,0.25);
+  }
+  .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,107,60,0.35); }
+  .login-error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    display: none;
+  }
+  .login-error.show { display: block; }
+
+  /* Dashboard */
+  #dashboard { display: none; }
+  main { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+
+  .top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  }
+  .page-title { font-size: 1.3rem; font-weight: 800; color: var(--dark); }
+  .page-title span { color: var(--green); }
+
+  .nav-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--green); font-weight: 600; font-size: 0.875rem;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: white;
+    transition: all 0.2s;
+  }
+  .nav-link:hover { background: var(--green-pale); border-color: var(--green); }
+  .logout-btn {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+  }
+  .logout-btn:hover { background: #fde8e8; }
+
+  /* Stats */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-3px); }
+  .stat-icon { font-size: 1.8rem; margin-bottom: 6px; display: block; }
+  .stat-num { font-size: 1.9rem; font-weight: 800; color: var(--green); line-height: 1; }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; font-weight: 500; }
+
+  /* Filters */
+  .filters-card {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+  .filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 130px; }
+  .filter-group label { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+  .filter-group select, .filter-group input {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.875rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .filter-group select:focus, .filter-group input:focus { border-color: var(--green); }
+  .refresh-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    align-self: flex-end;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .refresh-btn:hover { background: var(--green-light); }
+  .refresh-btn.loading { opacity: 0.7; pointer-events: none; }
+
+  /* Google Auth */
+  .auth-card {
+    background: white;
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .google-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 24px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Tajawal', sans-serif;
+    color: var(--text);
+    transition: all 0.2s;
+    margin-top: 12px;
+  }
+  .google-btn:hover { background: var(--green-pale); border-color: var(--green); }
+
+  /* Files Grid */
+  .section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .section-title { font-size: 1rem; font-weight: 700; color: var(--dark); }
+  .count-badge {
+    background: var(--green-pale);
+    color: var(--green);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1px solid var(--border);
+  }
+
+  .folders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .folder-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .folder-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(26,107,60,0.15);
+    border-color: var(--green);
+  }
+  .folder-top {
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .folder-icon {
+    font-size: 2rem; flex-shrink: 0;
+    width: 46px; height: 46px;
+    background: var(--green-pale);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .folder-name {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .folder-meta {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .meta-tag {
+    background: var(--green-pale);
+    color: var(--green);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .folder-files {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .open-drive-btn {
+    margin-top: 10px;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green);
+    color: white;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .open-drive-btn:hover { background: var(--green-light); }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--muted);
+  }
+  .empty-state .e-icon { font-size: 3.5rem; display: block; margin-bottom: 12px; }
+  .empty-state h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+  .empty-state p { font-size: 0.875rem; }
+
+  .spinner {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-overlay {
+    text-align: center;
+    padding: 50px;
+    color: var(--muted);
+  }
+  .loading-overlay .big-spinner {
+    width: 44px; height: 44px;
+    border: 4px solid var(--border);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 14px;
+  }
+
+  @media(max-width:700px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .filters-card { flex-direction: column; }
+    .folders-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="school-logo">🏫</div>
+    <div class="header-text">
+      <h1>مدرسة صلالة الشرقية للتعليم الأساسي</h1>
+      <p>منصة متابعة أعمال الطلاب</p>
+    </div>
+    <div class="header-badge">🎓 لوحة المعلم</div>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-icon">🔐</div>
+    <h2>لوحة تحكم المعلم</h2>
+    <p>أدخل كلمة المرور للوصول إلى أعمال الطلاب</p>
+    <div class="login-error" id="loginError">كلمة المرور غير صحيحة</div>
+    <input type="password" class="login-input" id="passwordInput" placeholder="• • • • • • • •" 
+           onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="login-btn" onclick="doLogin()">🔓 دخول</button>
+    <p style="font-size:0.78rem; color:var(--muted); margin-top:16px;">
+      كلمة المرور الافتراضية: <strong>teacher123</strong><br>
+      (يمكن تغييرها في إعدادات الكود)
+    </p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+<main>
+  <div class="top-nav">
+    <div class="page-title">أعمال <span>الطلاب</span></div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a href="student.html" class="nav-link">👨‍🎓 صفحة الطالب</a>
+      <button class="nav-link logout-btn" onclick="doLogout()">🚪 خروج</button>
+    </div>
+  </div>
+
+  <!-- Info Box -->
+  <div class="auth-card" style="background:var(--green-pale); border:1.5px solid var(--border); border-style:solid;">
+    <p style="font-size:0.95rem; font-weight:700; color:var(--green); margin-bottom:4px;">📁 Google Drive متصل</p>
+    <p style="font-size:0.82rem; color:var(--muted);">الأعمال تُحفظ تلقائياً في Drive الخاص بك عبر Google Apps Script</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-icon">📁</span>
+      <div class="stat-num" id="statTotal">—</div>
+      <div class="stat-label">إجمالي الأعمال</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">🏫</span>
+      <div class="stat-num" id="statClasses">—</div>
+      <div class="stat-label">الصفوف</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">📚</span>
+      <div class="stat-num" id="statSubjects">—</div>
+      <div class="stat-label">المواد</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">📅</span>
+      <div class="stat-num" id="statToday">—</div>
+      <div class="stat-label">اليوم</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-card">
+    <div class="filter-group">
+      <label>الصف</label>
+      <select id="filterGrade" onchange="applyFilters()">
+        <option value="">كل الصفوف</option>
+        <option value="خامس">الخامس</option>
+        <option value="سابع">السابع</option>
+        <option value="تاسع">التاسع</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>الشعبة</label>
+      <select id="filterSection" onchange="applyFilters()">
+        <option value="">كل الشعب</option>
+        <option value="1">شعبة 1</option>
+        <option value="2">شعبة 2</option>
+        <option value="3">شعبة 3</option>
+        <option value="4">شعبة 4</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>المادة</label>
+      <input type="text" value="تقنية المعلومات" readonly
+        style="background:#e8f5ee; color:var(--green); font-weight:700; cursor:default; border-color:var(--border);">
+    </div>
+    <div class="filter-group">
+      <label>بحث</label>
+      <input type="text" id="filterSearch" placeholder="اسم الطالب أو العمل..." oninput="applyFilters()">
+    </div>
+    <button class="refresh-btn" id="refreshBtn" onclick="loadFiles()">
+      <span id="refreshIcon">🔄</span> تحديث
+    </button>
+  </div>
+
+  <!-- File Listing -->
+  <div class="section-header">
+    <div class="section-title">📂 الأعمال المرفوعة</div>
+    <div class="count-badge" id="countBadge">—</div>
+  </div>
+
+  <div id="filesContainer">
+    <div class="empty-state">
+      <span class="e-icon">🔗</span>
+      <h3>ابدأ بالاتصال بـ Google Drive</h3>
+      <p>انقر على "تسجيل الدخول بـ Google" أعلاه لعرض أعمال الطلاب</p>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ============================================================
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVyx-ZyDHljybA9cuiOBW9DzwFKfKx1mw-AJPQk_yfm1WZV9dA3vijDD6niQsqPrI/exec'; // نفس رابط student.html
+const TEACHER_PASSWORD = 'teacher123'; // 🔑 غيّر كلمة المرور هنا
+// ============================================================
+
+let allSubmissions = [];
+let filteredSubmissions = [];
+
+// --- Login ---
+function doLogin() {
+  const pwd = document.getElementById('passwordInput').value;
+  if (pwd === TEACHER_PASSWORD) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadFiles();
+  } else {
+    document.getElementById('loginError').classList.add('show');
+    setTimeout(() => document.getElementById('loginError').classList.remove('show'), 3000);
+  }
+}
+
+function doLogout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('passwordInput').value = '';
+  allSubmissions = [];
+}
+
+// --- Load Files via Apps Script ---
+async function loadFiles() {
+  if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+    document.getElementById('filesContainer').innerHTML = `
+      <div class="empty-state">
+        <span class="e-icon">⚙️</span>
+        <h3>يرجى إعداد رابط Apps Script</h3>
+        <p>راجع ملف SETUP.md للتعليمات الكاملة</p>
+      </div>`;
+    return;
+  }
+
+  const btn = document.getElementById('refreshBtn');
+  btn.classList.add('loading');
+  document.getElementById('refreshIcon').innerHTML = '<span class="spinner"></span>';
+
+  document.getElementById('filesContainer').innerHTML = `
+    <div class="loading-overlay">
+      <div class="big-spinner"></div>
+      <p>جارٍ تحميل الأعمال من Google Drive...</p>
+    </div>`;
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + '?action=list');
+    const data = await res.json();
+
+    if (data.status !== 'success') throw new Error(data.message);
+
+    allSubmissions = data.submissions || [];
+    applyFilters();
+    updateStats(allSubmissions);
+
+  } catch (err) {
+    document.getElementById('filesContainer').innerHTML = `
+      <div class="empty-state">
+        <span class="e-icon">⚠️</span>
+        <h3>حدث خطأ في الاتصال</h3>
+        <p>${err.message}</p>
+      </div>`;
+  }
+
+  btn.classList.remove('loading');
+  document.getElementById('refreshIcon').textContent = '🔄';
+}
+
+function applyFilters() {
+  const grade = document.getElementById('filterGrade').value;
+  const sec = document.getElementById('filterSection').value;
+  const search = document.getElementById('filterSearch').value.trim().toLowerCase();
+
+  filteredSubmissions = allSubmissions.filter(s => {
+    if (grade && !s.className.startsWith(grade)) return false;
+    if (sec && !s.className.endsWith(sec)) return false;
+    if (search && !s.name.toLowerCase().includes(search) && !s.className.includes(search)) return false;
+    return true;
+  });
+
+  renderSubmissions(filteredSubmissions);
+  document.getElementById('countBadge').textContent = filteredSubmissions.length + ' عمل';
+}
+
+function renderSubmissions(subs) {
+  const container = document.getElementById('filesContainer');
+  if (subs.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <span class="e-icon">🔍</span>
+        <h3>لا توجد نتائج</h3>
+        <p>جرب تغيير معايير التصفية</p>
+      </div>`;
+    return;
+  }
+
+  const grid = subs.map(s => {
+    const date = new Date(s.createdTime).toLocaleDateString('ar-EG', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    const fileIcons = s.files.slice(0, 4).map(f => getFileIcon(f.name)).join(' ');
+    const parts = s.name.split(' — ');
+    const studentName = parts[0] || s.name;
+    const workTitle = parts[1] || '';
+
+    return `
+      <div class="folder-card">
+        <div class="folder-top">
+          <div class="folder-icon">📁</div>
+          <div>
+            <div class="folder-name">${studentName}</div>
+            ${workTitle ? `<div style="font-size:0.8rem; color:var(--muted); margin-top:2px;">${workTitle}</div>` : ''}
+          </div>
+        </div>
+        <div class="folder-meta">
+          <span class="meta-tag">🏫 ${s.className}</span>
+          <span class="meta-tag">📖 ${s.subjectName}</span>
+        </div>
+        <div class="folder-files">
+          <span>${fileIcons}</span>
+          <span>${s.files.length} ملف · ${date}</span>
+        </div>
+        <a href="${s.driveUrl}" target="_blank" class="open-drive-btn">📂 فتح في Drive</a>
+      </div>`;
+  }).join('');
+
+  container.innerHTML = `<div class="folders-grid">${grid}</div>`;
+}
+
+function updateStats(subs) {
+  document.getElementById('statTotal').textContent = subs.length;
+  const classes = [...new Set(subs.map(s => s.className))];
+  const subjects = [...new Set(subs.map(s => s.subjectName))];
+  document.getElementById('statClasses').textContent = classes.length;
+  document.getElementById('statSubjects').textContent = subjects.length;
+  const today = new Date().toDateString();
+  const todayCount = subs.filter(s => new Date(s.createdTime).toDateString() === today).length;
+  document.getElementById('statToday').textContent = todayCount;
+}
+
+function getFileIcon(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  const m = { pdf:'📄', jpg:'🖼️', jpeg:'🖼️', png:'🖼️', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', mp4:'🎬', avi:'🎬', mov:'🎬' };
+  return m[ext] || '📎';
+}
+</script>
+</body>
+</html>
