@@ -3,8 +3,8 @@ export default function handler(req, res) {
     const { password } = req.query;
 
     // --- بياناتك السرية (تعدلها مرة واحدة هنا فقط) ---
-    const SECRET_PASSWORD = "Faisal_2026_Secure"; // اختر كلمة مرورك
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycb.../exec"; 
+    const SECRET_PASSWORD = "2015"; // اختر كلمة مرورك
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzVyx-ZyDHljybA9cuiOBW9DzwFKfKx1mw-AJPQk_yfm1WZV9dA3vijDD6niQsqPrI/exec"; 
 
     if (password === SECRET_PASSWORD) {
         // إذا كانت كلمة المرور صحيحة، يرسل الخادم الرابط لصفحة المعلم
