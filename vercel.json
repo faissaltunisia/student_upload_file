@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/my-secret-access-2026",
+      "destination": "/teacher.html"
+    },
+    {
+      "source": "/teacher.html",
+      "destination": "/404"
+    }
+  ]
+}
