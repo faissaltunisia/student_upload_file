@@ -1,0 +1,10 @@
+{
+  "name": "student-school-project",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "start": "vercel dev"
+  }
+}
