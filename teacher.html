@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة المعلم — مدرسة صلالة الشرقية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* أبقيت لك جميع التنسيقات (CSS) كما هي تماماً دون تغيير لضمان مظهر الصفحة المعتاد */
+  :root {
+    --green: #1a6b3c; --green-light: #22873f; --green-pale: #e8f5ee;
+    --gold: #c9a84c; --gold-light: #f0d98a; --dark: #0f2318;
+    --text: #1c3528; --muted: #6b8f7a; --white: #ffffff;
+    --surface: #f4fbf7; --border: #c8e6d4; --radius: 16px;
+    --shadow: 0 4px 24px rgba(26,107,60,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Tajawal', sans-serif; background: var(--surface); color: var(--text); min-height: 100vh;
+    background-image: radial-gradient(ellipse at 20% 5%, rgba(201,168,76,0.10) 0%, transparent 50%), radial-gradient(ellipse at 90% 95%, rgba(26,107,60,0.10) 0%, transparent 50%);
+  }
+  header { background: linear-gradient(135deg, #0a1f10 0%, #1a5c38 100%); color: white; padding: 0; position: relative; overflow: hidden; }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 28px 24px; display: flex; align-items: center; gap: 20px; position: relative; z-index: 1; }
+  .school-logo { width: 64px; height: 64px; background: rgba(255,255,255,0.1); border-radius: 50%; border: 2px solid rgba(201,168,76,0.45); display: flex; align-items: center; justify-content: center; font-size: 1.9rem; flex-shrink: 0; }
+  .header-text h1 { font-size: 1.4rem; font-weight: 800; }
+  .header-badge { margin-right: auto; background: rgba(201,168,76,0.18); border: 1px solid rgba(201,168,76,0.45); color: var(--gold-light); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+  #loginScreen { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 120px); padding: 32px 24px; }
+  .login-card { background: white; border-radius: 20px; box-shadow: 0 8px 40px rgba(26,107,60,0.15); border: 1px solid var(--border); padding: 44px 40px; width: 100%; max-width: 400px; text-align: center; }
+  .login-input { font-family: 'Tajawal', sans-serif; font-size: 1rem; width: 100%; border: 1.5px solid var(--border); border-radius: 12px; padding: 13px 16px; text-align: center; margin-bottom: 12px; outline: none; }
+  .login-btn { width: 100%; background: linear-gradient(135deg, var(--green), var(--green-light)); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+  #dashboard { display: none; }
+  main { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+  .stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 16px; text-align: center; box-shadow: var(--shadow); }
+  .stat-num { font-size: 1.9rem; font-weight: 800; color: var(--green); }
+  .filters-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 130px; }
+  .refresh-btn { background: var(--green); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 700; }
+  .folders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .folder-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+  .meta-tag { background: var(--green-pale); color: var(--green); padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; margin-left: 5px; }
+  .open-drive-btn { display: inline-block; margin-top: 10px; background: var(--green); color: white; padding: 7px 14px; border-radius: 8px; text-decoration: none; font-size: 0.8rem; }
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media(max-width:700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } .filters-card { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="school-logo">🏫</div>
+    <div class="header-text">
+      <h1>مدرسة صلالة الشرقية للتعليم الأساسي</h1>
+      <p>منصة متابعة أعمال الطلاب</p>
+    </div>
+    <div class="header-badge">🎓 لوحة المعلم</div>
+  </div>
+</header>
+
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-icon">🔐</div>
+    <h2>لوحة تحكم المعلم</h2>
+    <p>أدخل كلمة المرور للوصول إلى أعمال الطلاب</p>
+    <div id="loginError" style="color:red; font-size:0.85rem; margin-bottom:10px; display:none;">كلمة المرور غير صحيحة ❌</div>
+    <input type="password" class="login-input" id="passwordInput" placeholder="• • • • • • • •" onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">🔓 دخول آمن</button>
+  </div>
+</div>
+
+<div id="dashboard">
+<main>
+  <div class="top-nav" style="display:flex; justify-content: space-between; margin-bottom:20px;">
+    <div class="page-title" style="font-size:1.3rem; font-weight:800;">أعمال <span style="color:var(--green)">الطلاب</span></div>
+    <button class="refresh-btn" style="background:#fef2f2; color:#b91c1c; border:1px solid #fca5a5" onclick="doLogout()">🚪 خروج</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">📁 <div class="stat-num" id="statTotal">—</div><div style="font-size:0.8rem">إجمالي الأعمال</div></div>
+    <div class="stat-card">🏫 <div class="stat-num" id="statClasses">—</div><div style="font-size:0.8rem">الصفوف</div></div>
+    <div class="stat-card">📚 <div class="stat-num" id="statSubjects">—</div><div style="font-size:0.8rem">المواد</div></div>
+    <div class="stat-card">📅 <div class="stat-num" id="statToday">—</div><div style="font-size:0.8rem">أعمال اليوم</div></div>
+  </div>
+
+  <div class="filters-card">
+    <div class="filter-group"><label>الصف</label><select id="filterGrade" onchange="applyFilters()"><option value="">كل الصفوف</option><option value="خامس">خامس</option><option value="سابع">سابع</option><option value="تاسع">تاسع</option></select></div>
+    <div class="filter-group"><label>بحث</label><input type="text" id="filterSearch" placeholder="اسم الطالب..." oninput="applyFilters()"></div>
+    <button class="refresh-btn" id="refreshBtn" onclick="loadFiles()">🔄 تحديث البيانات</button>
+  </div>
+
+  <div id="filesContainer"></div>
+</main>
+</div>
+
+<script>
+// الكود الآن لا يحتوي على روابط أو كلمات مرور مكشوفة
+let SECURE_API_URL = ""; 
+let allSubmissions = [];
+
+async function doLogin() {
+    const pwdInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('loginError');
+
+    if (!pwdInput.value) return;
+
+    loginBtn.innerHTML = '<span class="spinner"></span> جاري التحقق...';
+    loginBtn.disabled = true;
+    errorMsg.style.display = 'none';
+
+    try {
+        // نطلب البيانات من المجلد المحمي الذي أنشأناه في الخطوة السابقة
+        const response = await fetch(`/api/get-config?password=${pwdInput.value}`);
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            SECURE_API_URL = data.apiUrl; // استلام الرابط من الخادم
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadFiles();
+        } else {
+            throw new Error();
+        }
+    } catch (err) {
+        errorMsg.style.display = 'block';
+        loginBtn.innerHTML = '🔓 دخول آمن';
+        loginBtn.disabled = false;
+    }
+}
+
+function doLogout() {
+    location.reload(); // إعادة تحميل الصفحة لمسح البيانات من الذاكرة
+}
+
+async function loadFiles() {
+    if (!SECURE_API_URL) return;
+
+    const btn = document.getElementById('refreshBtn');
+    btn.innerHTML = '<span class="spinner"></span> جاري التحميل...';
+    
+    try {
+        const res = await fetch(SECURE_API_URL + '?action=list');
+        const data = await res.json();
+        if (data.status === 'success') {
+            allSubmissions = data.submissions;
+            applyFilters();
+            updateStats(allSubmissions);
+        }
+    } catch (err) {
+        console.error("خطأ في التحميل");
+    }
+    btn.innerHTML = '🔄 تحديث البيانات';
+}
+
+function applyFilters() {
+    const grade = document.getElementById('filterGrade').value;
+    const search = document.getElementById('filterSearch').value.toLowerCase();
+
+    const filtered = allSubmissions.filter(s => {
+        const matchGrade = grade ? s.className.includes(grade) : true;
+        const matchSearch = search ? s.name.toLowerCase().includes(search) : true;
+        return matchGrade && matchSearch;
+    });
+
+    renderSubmissions(filtered);
+}
+
+function renderSubmissions(subs) {
+    const container = document.getElementById('filesContainer');
+    if (subs.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:40px;">لا توجد أعمال حالياً</div>';
+        return;
+    }
+
+    container.innerHTML = `<div class="folders-grid">` + subs.map(s => `
+        <div class="folder-card">
+            <div style="font-weight:800; margin-bottom:10px;">👤 ${s.name}</div>
+            <div style="margin-bottom:10px;">
+                <span class="meta-tag">🏫 ${s.className}</span>
+                <span class="meta-tag">📖 ${s.subjectName}</span>
+            </div>
+            <div style="font-size:0.8rem; color:gray;">📅 ${new Date(s.createdTime).toLocaleDateString('ar-OM')}</div>
+            <a href="${s.driveUrl}" target="_blank" class="open-drive-btn">📂 فتح في Drive</a>
+        </div>
+    `).join('') + `</div>`;
+}
+
+function updateStats(subs) {
+    document.getElementById('statTotal').textContent = subs.length;
+    document.getElementById('statClasses').textContent = [...new Set(subs.map(s => s.className))].length;
+    document.getElementById('statSubjects').textContent = [...new Set(subs.map(s => s.subjectName))].length;
+    const today = new Date().toDateString();
+    document.getElementById('statToday').textContent = subs.filter(s => new Date(s.createdTime).toDateString() === today).length;
+}
+</script>
+</body>
+</html>
